@@ -13,13 +13,14 @@ let ballY = (ch/2 ); //start ball positionY
 
 const racketHeight = 80; //racket height
 const racketWidth = 15; //racket width
+
 const playerX = 70; //player racket start positionX
 const aiX  = 910; //computer racket start positionX
 let playerY = 200; //player racket start positionY
 let aiY = 200; //computer racket start positionY
 
-let ballSpeedX = 1;//ball speedX
-let ballSpeedY = 3;//ball speedY
+let ballSpeedX = 4;//ball speedX
+let ballSpeedY = 4;//ball speedY
 
 //draw a player racket
 function player(){
@@ -46,10 +47,12 @@ function ball(){
 
     if(ballY- ballSize/2 <= 0 || ballY + ballSize/2 >= ch){
         ballSpeedY = -ballSpeedY;
+        speedUp();
     }
 
     if (ballX - ballSize/2 <=0 || ballX + ballSize/2 >= cw){
         ballSpeedX = -ballSpeedX;
+        speedUp();
     }
 }
 
@@ -64,13 +67,52 @@ function table(){
         ctx.fillRect(cw/2 - 1.5,i,3,20)
     }
 }
+//mouse position
+let topCanvas = canvas.offsetTop;
+  
+//mouse move
+function playerPosition(event){
+    playerY = event.clientY - topCanvas - ((racketHeight/2) + 20);
+
+    if(playerY >= ch - racketHeight){
+        playerY = ch - racketHeight - 20;
+    }
+    if(playerY <= 0){
+        playerY = -20;
+    }
+}
+
+//ball acceleration
+function speedUp(){
+    //speed in the Y axis
+    if (ballSpeedY > 0 && ballSpeedY < 16){
+        ballSpeedY += 0.2;
+    }
+    else if(ballSpeedY < 0 && ballSpeedY > -16){
+        ballSpeedY -= 0.2;
+    }
+
+    //speed in the X axis
+    if (ballSpeedX > 0 && ballSpeedX < 16){
+        ballSpeedX += 0.2;
+    }
+    else if(ballSpeedX < 0 && ballSpeedX > -16){
+        ballSpeedX -= 0.2;
+    }
+}
+
+//artificial intelligence
+function aiPosition(){
+
+}
+
+canvas.addEventListener("mousemove", playerPosition);
 
 function game(){
     table();
     ball();
     player();
     computer();
+    aiPosition();
 }
-
-
 setInterval(game, 1000/60);
