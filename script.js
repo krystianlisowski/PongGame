@@ -19,8 +19,8 @@ const aiX  = 910; //computer racket start positionX
 let playerY = 200; //player racket start positionY
 let aiY = 200; //computer racket start positionY
 
-let ballSpeedX = 4;//ball speedX
-let ballSpeedY = 4;//ball speedY
+let ballSpeedX = 5;//ball speedX
+let ballSpeedY = 5;//ball speedY
 let playerSorce = 0;
 let aiSorce = 0;
 
@@ -52,27 +52,23 @@ function ball(){
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
-    if(ballY <= 0)
-    {
+    if(ballY <= 0){
         ballSpeedY *= -1;
         ballY = 0;
         speedUp();
     }
 
-    if(ballY >= ch - ballSize)
-    {
+    if(ballY >= ch - ballSize){
         ballSpeedY *= -1;
         ballY = ch - ballSize;
         speedUp();
     }
 
-    if(ballX + ballSize >= cw)
-    {
+    if(ballX + ballSize >= cw){
         reset(true);
     }
 
-    if(ballX - ballSize <= 0)
-    {
+    if(ballX - ballSize <= 0){
         reset(false);
     }
     
@@ -89,21 +85,19 @@ function ball(){
     if(ballX <= playerX + racketWidth && 
         ballX >= playerX && 
         ballY + ballSize >= playerY && 
-        ballY <= playerY + racketHeight)
-     { 
-         ballSpeedX *= -1;
-         ballX = playerX + racketWidth;  
-         speedUp();
+        ballY <= playerY + racketHeight){ 
+            ballSpeedX *= -1;
+            ballX = playerX + racketWidth;  
+            speedUp();
      }
 
      if(ballX + ballSize >= aiX && 
         ballX + ballSize <= aiX + racketWidth &&
         ballY + ballSize >= aiY && 
-        ballY <= aiY + racketHeight)
-     {
-         ballSpeedX *= -1;
-         ballX = aiX - ballSize;
-         speedUp();
+        ballY <= aiY + racketHeight){
+            ballSpeedX *= -1;
+            ballX = aiX - ballSize;
+            speedUp();
      }
 }
 
@@ -182,8 +176,7 @@ function aiPosition(){
         }
     }
 }
-function ballReset()
-{
+function ballReset(){
     document.body.onkeyup = function (e){
         if(e.keyCode == 32){
             play();
@@ -197,25 +190,26 @@ function ballReset()
             ballY = ch/2;  
         }
     }    
-    // ctx.fillStyle = "orangered";
-    // ctx.beginPath();
-    // ctx.arc(ballX, ballY, 10, 0, Math.PI*2);
-    // ctx.fill();
-    // ctx.closePath();
-    
-    // ballX = playerX + racketWidth;
-    // ballY = playerY + racketHeight/2 - ballSize/2;
-    // canvas.addEventListener("keyup",play);
 }
 
 function reset(who){
-    if(who)
-    {
+    if(who){
         scorePlayer.textContent = ++playerSorce;
+        if (playerSorce >= 3 && aiSorce != 3){
+            alert(`Player wins!`);
+            scorePlayer.textContent = 0;
+            scoreAi.textContent = 0;
+            newGame = false;
+        }
     }
-    else
-    {
+    else{
         scoreAi.textContent = ++aiSorce;
+        if(aiSorce >= 3 && playerSorce != 3){
+            alert(`Computer wins!`);
+            scorePlayer.textContent = 0;
+            scoreAi.textContent = 0;
+            newGame = false;
+        }
     }
     newGame = true;
 }

@@ -14,7 +14,7 @@ body{
 
   canvas{
     border: 5px solid #fff;
-    cursor: none;
+    cursor: crosshair;
   }
 
   #playerPKT{
